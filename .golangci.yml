@@ -1,0 +1,125 @@
+# Конфигурация golangci-lint
+
+run:
+  # Режим работы линтера
+  modules-download-mode: readonly
+  # Сканируемые директории
+  issues-exclude-dirs:
+    - vendor
+    - migrations
+  # Сканируемые файлы
+  issues-exclude-files:
+    - "_test\\.go$"
+
+# Правила для вывода
+output:
+  formats:
+    - format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+# Настройки линтеров
+linters-settings:
+  # gofmt
+  gofmt:
+    simplify: true
+
+  # goimports
+  goimports:
+    local-prefixes: pr-reviewer-assignment-service
+
+  revive:
+    rules:
+      # Отключаем требование комментариев для публичных функций, чтобы не перегружать код
+      - name: exported
+        disabled: true
+
+  # gocyclo
+  gocyclo:
+    min-complexity: 15
+
+  # goconst
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+
+  # misspell
+  misspell:
+    locale: US
+
+  # gocritic
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - whyNoLint
+      - hugeParam
+
+  # dupl
+  dupl:
+    threshold: 100
+
+  # gocognit
+  gocognit:
+    min-complexity: 30
+
+linters:
+  # Включенные линтеры
+  enable:
+    - gofmt
+    - goimports
+    - revive
+    - gocyclo
+    - goconst
+    - misspell
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gocritic
+    - gosimple
+    - ineffassign
+    - typecheck
+    - prealloc
+    - unconvert
+    - dupl
+    - gocognit
+    - dogsled
+    - nakedret
+  # Отключенные линтеры
+  # Все устаревшие линтеры уже отключены по умолчанию
+  
+  # Разрешить все линтеры по умолчанию, затем включить только нужные
+  disable-all: false
+  enable-all: false
+
+issues:
+  # Список проблем для исключения
+  exclude-use-default: false
+  exclude:
+  
+  # Правила для фильтрации проблем
+  exclude-rules:
+    # Не проверять тестовые файлы на дубликаты
+    - path: _test\.go
+      linters:
+        - dupl
+    # Разрешить пустые блоки в тестах
+    - path: _test\.go
+      text: "empty block"
+      linters:
+        - staticcheck
+    # Разрешить длинные функции в миграциях
+    - path: migrations
+      linters:
+        - gocognit
+        - gocyclo
+
+  # Максимальное количество проблем одного типа
+  max-same-issues: 50
+  # Максимальное количество проблем
+  max-issues-per-linter: 50
