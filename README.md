@@ -143,7 +143,6 @@ make lint-fix
 - `basic.js` - базовые сценарии
 - `edge_cases.js` - граничные случаи
 - `scenario.js` - сценарии с пиковыми нагрузками
-- `mass_deactivate_performance.js` - тест производительности для новой функции
 
 Для запуска тестов:
 ```bash
