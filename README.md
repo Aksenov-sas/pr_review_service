@@ -1,10 +1,10 @@
-# PR Reviewer Assignment Service
+# PR Reviewer Service
 
 Сервис для автоматического назначения ревьюверов для Pull Request'ов.
 
 ## Архитектура
 
-Сервис построен с использованием clean architecture и включает в себя:
+Сервис включает в себя:
 
 - **HTTP Layer**: Обработчики запросов (handlers)
 - **Service Layer**: Бизнес-логика (services)
